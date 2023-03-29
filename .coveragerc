@@ -10,11 +10,11 @@ omit =
     .tox/*,
     build/*,
     dist/*,
-    be_upy_blink/version.py
+    eeprom/version.py
 
 [report]
 # include = src/*
-include = be_upy_blink/*
+include = eeprom/*
 # Regexes for lines to exclude from consideration
 
 ignore_errors = True

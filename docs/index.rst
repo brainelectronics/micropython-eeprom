@@ -1,4 +1,4 @@
-MicroPython package template
+MicroPython EEPROM
 ===================================
 
 Contents
@@ -11,7 +11,7 @@ Contents
    EXAMPLES
    DOCUMENTATION
    CONTRIBUTING
-   be_upy_blink
+   eeprom
    changelog_link
 
 Indices and tables
