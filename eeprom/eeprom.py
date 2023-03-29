@@ -152,8 +152,18 @@ class EEPROM(object):
         :returns:   Data of EEPROM
         :rtype:     bytes
         """
-        if addr > self.pages or addr < 0:
-            raise ValueError("Read address outside of device address range")
+        if addr > self.capacity or addr < 0:
+            raise ValueError(
+                "Read address {} outside of device address range {}".
+                format(addr, self.capacity)
+            )
+
+        if addr + nbytes > self.capacity:
+            raise ValueError(
+                "Last read address {} outside of device address range {}".
+                format(addr + nbytes, self.capacity)
+            )
+
         return self._i2c.readfrom_mem(self._addr, addr, nbytes, addrsize=16)
 
     def write(self, addr: int, buf: Union[bytes, List[int], str]) -> None:
@@ -169,11 +179,16 @@ class EEPROM(object):
         partial = 0
 
         if addr > self.capacity or addr < 0:
-            raise ValueError("Write address outside of device address range")
+            raise ValueError(
+                "Write address {} outside of device address range {}".
+                format(addr, self.capacity)
+            )
 
-        # if addr + (len(buf) // self.bpp) > self.pages:
         if addr + len(buf) > self.capacity:
-            raise ValueError("Data does not fit into device address range")
+            raise ValueError(
+                "Last data at {} does not fit into device address range {}".
+                format(addr + len(buf), self.capacity)
+            )
 
         # partial page write
         if offset > 0:
@@ -205,9 +220,7 @@ class EEPROM(object):
         """
         for idx, ele in enumerate(buf):
             this_addr = addr + idx
-            # this_val = bytes([ele])
 
-            # works for string, int and bytes
             if isinstance(ele, int):
                 this_val = ele.to_bytes(1, 'big')
             else:
@@ -225,7 +238,6 @@ class EEPROM(object):
         """Wipe the complete EEPROM"""
         page_buff = b'\xff' * self.bpp
         for i in range(self.pages):
-            # print("erase: {}".format(i * self.bpp))
             self.write(i * self.bpp, page_buff)
 
     def print_pages(self, addr: int, nbytes: int) -> None:
