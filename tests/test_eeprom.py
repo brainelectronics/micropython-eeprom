@@ -166,10 +166,33 @@ class TestEEPROM(unittest.TestCase):
         eeprom = EEPROM(pages=128, bpp=32, i2c=self.i2c)
 
         with self.assertRaises(ValueError) as context:
-            eeprom.read(addr=eeprom.pages + 1)
+            eeprom.read(addr=eeprom.capacity + 1)
 
-        self.assertEqual(str(context.exception),
-                         "Read address outside of device address range")
+        self.assertEqual(
+            str(context.exception),
+            "Read address {} outside of device address range {}".
+            format(eeprom.capacity + 1, eeprom.capacity)
+        )
+
+        # page_addr = eeprom.capacity - 1
+        # try:
+        #     eeprom.read(addr=page_addr)
+        # except ValueError as e:
+        #     self.fail(
+        #         "Read of last EEPROM address failed unexpectedly: {}".
+        #         format(e)
+        #     )
+
+        page_addr = eeprom.capacity - 1
+        bytes_to_read = 2
+        with self.assertRaises(ValueError) as context:
+            eeprom.read(addr=page_addr, nbytes=bytes_to_read)
+
+        self.assertEqual(
+            str(context.exception),
+            "Last read address {} outside of device address range {}".
+            format(page_addr + 2, eeprom.capacity)
+        )
 
         page_addr = 10
         with patch.object(I2C, 'readfrom_mem', wraps=self._tracked_call):
@@ -180,13 +203,13 @@ class TestEEPROM(unittest.TestCase):
                          (eeprom.addr, page_addr, 1))
 
         self._tracked_call_data = []
-        pages_to_read = 5
+        bytes_to_read = 5
         with patch.object(I2C, 'readfrom_mem', wraps=self._tracked_call):
-            eeprom.read(addr=page_addr, nbytes=pages_to_read)
+            eeprom.read(addr=page_addr, nbytes=bytes_to_read)
 
         self.assertEqual(len(self._tracked_call_data), 1)
         self.assertEqual(self._tracked_call_data[0]['args'],
-                         (eeprom.addr, page_addr, pages_to_read))
+                         (eeprom.addr, page_addr, bytes_to_read))
 
     def test_write(self) -> None:
         """Test writing bytes to EEPROM"""
@@ -197,16 +220,23 @@ class TestEEPROM(unittest.TestCase):
             with self.assertRaises(ValueError) as context:
                 eeprom.write(addr=addr, buf=bytes([12]))
 
-            self.assertEqual(str(context.exception),
-                             "Write address outside of device address range")
+            self.assertEqual(
+                str(context.exception),
+                "Write address {} outside of device address range {}".
+                format(addr, eeprom.capacity)
+            )
 
         # write more data than fitting on last page
         addr = (eeprom.pages - 1) * eeprom.bpp
+        buf = bytes([42] * (eeprom.bpp + 1))
         with self.assertRaises(ValueError) as context:
-            eeprom.write(addr=addr, buf=bytes([42] * (eeprom.bpp + 1)))
+            eeprom.write(addr=addr, buf=buf)
 
-        self.assertEqual(str(context.exception),
-                         "Data does not fit into device address range")
+        self.assertEqual(
+            str(context.exception),
+            "Last data at {} does not fit into device address range {}".
+            format(addr + len(buf), eeprom.capacity)
+        )
 
         # partial page write
         with patch.object(I2C, 'writeto_mem', wraps=self._tracked_call):
