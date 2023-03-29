@@ -21,22 +21,22 @@ try:
     to_be_mocked = [
         'micropython',
         'machine',
-        'time.sleep_ms', 'time.sleep_us',
+        'time.sleep_ms',
     ]
     for module in to_be_mocked:
         sys.modules[module] = Mock()
         print("Mocked '{}' module".format(module))
 
-    import be_upy_blink
+    import eeprom
 except ImportError:
-    raise SystemExit("be_upy_blink has to be importable")
+    raise SystemExit("eeprom has to be importable")
 
 # load elements of version.py
-exec(open(here / '..' / 'be_upy_blink' / 'version.py').read())
+exec(open(here / '..' / 'eeprom' / 'version.py').read())
 
 # -- Project information
 
-project = 'micropython-package-template'
+project = 'micropython-eeprom'
 copyright = '2023, brainelectronics'
 author = 'brainelectronics'
 
@@ -78,10 +78,10 @@ suppress_warnings = [
 # A list of regular expressions that match URIs that should not be checked
 # when doing a linkcheck build.
 linkcheck_ignore = [
-    # tag 0.4.0 did not exist during docs introduction
-    'https://github.com/brainelectronics/micropython-package-template/tree/0.4.0',
+    # tag 0.1.0 did not exist during docs introduction
+    'https://github.com/brainelectronics/micropython-eeprom/tree/0.1.0',
     # RTD page did not exist during docs introduction
-    'https://micropython-package-template.readthedocs.io/en/latest/',
+    'https://micropython-eeprom.readthedocs.io/en/latest/',
 ]
 
 templates_path = ['_templates']
