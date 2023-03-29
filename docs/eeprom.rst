@@ -4,10 +4,10 @@ API
 .. autosummary::
    :toctree: generated
 
-BE uPy Blink
+EEPROM
 ---------------------------------
 
-.. automodule:: be_upy_blink.blink
+.. automodule:: eeprom.eeprom
    :members:
    :private-members:
    :show-inheritance:
