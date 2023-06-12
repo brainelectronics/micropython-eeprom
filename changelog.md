@@ -20,6 +20,7 @@ r"^\#\# \[\d{1,}[.]\d{1,}[.]\d{1,}\] \- \d{4}\-\d{2}-\d{2}$"
 ## [0.1.1] - 2023-06-12
 ### Fixed
 - Usage documentation with more comments and WiFi instructions in root README
+- Ignore version of `package.json` file in test workflow
 
 ## [0.1.0] - 2023-03-29
 ### Added
