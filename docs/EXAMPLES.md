@@ -15,12 +15,13 @@ An example of all implemented functionalities can be found at the
 from eeprom import EEPROM
 from machine import I2C, Pin
 
-I2C_ADDR = 0x50
+# AT24C32 on 0x50
+I2C_ADDR = 0x50     # DEC 80, HEX 0x50
 
 # define custom I2C interface, default is 'I2C(0)'
 # check the docs of your device for further details and pin infos
 i2c = I2C(0, scl=Pin(13), sda=Pin(12), freq=800000)
-eeprom = EEPROM(addr=I2C_ADDR, at24x=32, i2c=i2c)   # AT24C32 on 0x50
+eeprom = EEPROM(addr=I2C_ADDR, at24x=32, i2c=i2c)
 
 # get LCD infos/properties
 print("EEPROM is on I2C address 0x{0:02x}".format(eeprom.addr))
@@ -63,3 +64,6 @@ eeprom.write(10, 'MicroPython')
 # update only changed values, here 5 -> 7, 13 -> 13, 255 -> 244, see write example
 eeprom.update(64, [7, 17, 255, 9, 13, 7, 244])
 ```
+
+<!-- Links -->
+[ref-micropython-eeprom-examples]: https://github.com/brainelectronics/micropython-eeprom/tree/main/examples
