@@ -6,12 +6,14 @@
 from eeprom import EEPROM
 from machine import I2C, Pin
 
-I2C_ADDR = 0x50
+# AT24C32 on 0x50
+I2C_ADDR = 0x50     # DEC 80, HEX 0x50
 
 # define custom I2C interface, default is 'I2C(0)'
 # check the docs of your device for further details and pin infos
+# this are the pins for the Raspberry Pi Pico adapter board
 i2c = I2C(0, scl=Pin(13), sda=Pin(12), freq=800000)
-eeprom = EEPROM(addr=I2C_ADDR, at24x=32, i2c=i2c)   # AT24C32 on 0x50
+eeprom = EEPROM(addr=I2C_ADDR, at24x=32, i2c=i2c)
 
 # get LCD infos/properties
 print("EEPROM is on I2C address 0x{0:02x}".format(eeprom.addr))

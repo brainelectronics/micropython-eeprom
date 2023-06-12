@@ -17,6 +17,11 @@ r"^\#\# \[\d{1,}[.]\d{1,}[.]\d{1,}\] \- \d{4}\-\d{2}-\d{2}$"
 -->
 
 ## Released
+## [0.1.1] - 2023-06-12
+### Fixed
+- Usage documentation with more comments and WiFi instructions in root README
+- Ignore version of `package.json` file in test workflow
+
 ## [0.1.0] - 2023-03-29
 ### Added
 - `eeprom.py` in `eeprom` module
@@ -29,6 +34,7 @@ r"^\#\# \[\d{1,}[.]\d{1,}[.]\d{1,}\] \- \d{4}\-\d{2}-\d{2}$"
 - Not used files provided with [template repo](https://github.com/brainelectronics/micropython-i2c-lcd)
 
 <!-- Links -->
-[Unreleased]: https://github.com/brainelectronics/micropython-eeprom/compare/0.1.0...main
+[Unreleased]: https://github.com/brainelectronics/micropython-eeprom/compare/0.1.1...main
 
+[0.1.1]: https://github.com/brainelectronics/micropython-eeprom/tree/0.1.1
 [0.1.0]: https://github.com/brainelectronics/micropython-eeprom/tree/0.1.0
