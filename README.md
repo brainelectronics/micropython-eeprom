@@ -7,13 +7,13 @@
 [![codecov](https://codecov.io/github/brainelectronics/micropython-eeprom/branch/main/graph/badge.svg)](https://app.codecov.io/github/brainelectronics/micropython-eeprom)
 [![CI](https://github.com/brainelectronics/micropython-eeprom/actions/workflows/release.yml/badge.svg)](https://github.com/brainelectronics/micropython-eeprom/actions/workflows/release.yml)
 
-MicroPython driveer for AT24Cxx EEPROM
+MicroPython driver for AT24Cxx EEPROM
 
 ---------------
 
 ## General
 
-MicroPython driveer for AT24Cxx EEPROM
+MicroPython driver for AT24Cxx EEPROM
 
 📚 The latest documentation is available at
 [MicroPython EEPROM ReadTheDocs][ref-rtd-micropython-eeprom] 📚
@@ -21,17 +21,17 @@ MicroPython driveer for AT24Cxx EEPROM
 <!-- MarkdownTOC -->
 
 - [Installation](#installation)
-	- [Install required tools](#install-required-tools)
+    - [Install required tools](#install-required-tools)
 - [Setup](#setup)
-	- [Install package with upip](#install-package-with-upip)
-		- [General](#general)
-		- [Specific version](#specific-version)
-		- [Test version](#test-version)
-	- [Manually](#manually)
-		- [Upload files to board](#upload-files-to-board)
+    - [Install package with upip](#install-package-with-upip)
+        - [General](#general)
+        - [Specific version](#specific-version)
+        - [Test version](#test-version)
+    - [Manually](#manually)
+        - [Upload files to board](#upload-files-to-board)
 - [Usage](#usage)
 - [Contributing](#contributing)
-	- [Unittests](#unittests)
+    - [Unittests](#unittests)
 - [Credits](#credits)
 
 <!-- /MarkdownTOC -->
@@ -67,6 +67,7 @@ Connect the MicroPython device to a network (if possible)
 ```python
 import network
 station = network.WLAN(network.STA_IF)
+station.active(True)
 station.connect('SSID', 'PASSWORD')
 station.isconnected()
 ```
@@ -163,8 +164,8 @@ cp examples/boot.py /pyboard
 from eeprom import EEPROM
 from machine import I2C, Pin
 
-I2C_ADDR = 0x50
-EEPROM_SIZE = 32	# AT24C32 on 0x50
+I2C_ADDR = 0x50     # DEC 80, HEX 0x50
+EEPROM_SIZE = 32    # AT24C32 on 0x50
 
 # define custom I2C interface, default is 'I2C(0)'
 # check the docs of your device for further details and pin infos
