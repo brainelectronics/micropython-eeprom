@@ -33,18 +33,10 @@ SOFTWARE.
 from machine import I2C
 from time import sleep_ms
 
-
-class _Subscriptable():
-    def __getitem__(self, item):
-        return None
-
-
-_subscriptable = _Subscriptable()
-
-List = _subscriptable
-Optional = _subscriptable
-Union = _subscriptable
-
+# minimal overhead type checking
+TYPE_CHECKING = False
+if TYPE_CHECKING:
+    from typing import List, Optional, Union
 
 class EEPROM(object):
     """Driver for AT24Cxx I2C EEPROM"""
